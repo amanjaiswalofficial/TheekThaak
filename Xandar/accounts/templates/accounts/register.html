@@ -12,7 +12,7 @@
 				<div class="col-first">
 					<h1>Register New User</h1>
 					<nav class="d-flex align-items-center">
-						<a href="{% static 'index.html' %}">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="{% static 'index' %}">Home<span class="lnr lnr-arrow-right"></span></a>
 						<a href="#">Register New User</a>
 					</nav>
 				</div>
@@ -60,7 +60,7 @@
 							</div>
 						</form>
 						<div>
-							Already A User?? <a href="{% url 'loginapp' %}">Sign In</a>
+							Already A User?? <a href="{% url 'accounts:loginapp' %}">Sign In</a>
 						</div><br>
 						
 					</div>

@@ -61,6 +61,8 @@ class Product(models.Model):
     gender = models.CharField(choices=GENDER_CHOICES, max_length=10)
     replacement = models.IntegerField()
 
+    def __str__(self):
+        return self.name
 
 
 
@@ -108,8 +110,8 @@ class ProductImages(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     product_image = models.FileField(upload_to='product_images/', default='product_images/default.jpg')
 
-
-
+    def __str__(self):
+        return self.product.name
 
 
 
