@@ -19,11 +19,13 @@ from django.urls import path, include
 from Xandar import settings
 from django.contrib.auth import views as auth_views
 from accounts import views
-
+from products.views import ProductListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('accounts.urls')),
+    path('', include('core.urls')),
+    path('product_list/', ProductListView.as_view(), name="product_list"),
 
 
 
@@ -79,4 +81,4 @@ urlpatterns = [
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
-#urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

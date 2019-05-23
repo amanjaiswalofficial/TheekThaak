@@ -7,3 +7,8 @@ def get_extra_field(table, extra_attributes):
     extra_fields = [value for value in fields]
     extra_attributes.append(('Other', tuple([(i, i) for i in extra_fields])))
     return extra_attributes
+
+
+
+def index(request):
+	return render(request, 'core/index.html')

@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+
+<body>
 	<!-- Start Banner Area -->
 	<section class="banner-area organic-breadcrumb">
 		<div class="container">
@@ -27,21 +29,25 @@
 						<div class="hover">
 							<h4>New to our website?</h4>
 							<p>There are advances being made in science and technology everyday, and a good example of this is the</p>
-							<a class="primary-btn" href="register.html">Create an Account</a>
+							<a class="primary-btn" href="{% url 'accounts:registration' %}">Create an Account</a>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-6">
+
 					<div class="login_form_inner">
+						{% if logged_in %}
+						<h3>You Have Already Been Logged In, Go To Home To Continue Shopping</h3>
+						{% else %}
 						<h3>Log in to enter</h3>
-						<div class="form-group">{% if message %}
+						<div class="form-group" style="color:red;">{% if message %}
 								{{message}}
 							{% endif %}
 						</div>
 						<form class="row login_form" method="post" id="contactForm">
 							{% csrf_token %}
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" name="username" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+								<input type="text" class="form-control" name="username" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'">
 							</div>
 							<div class="col-md-12 form-group">
 								<input type="password" class="form-control" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
@@ -51,10 +57,18 @@
 								<a href="{% url 'check_email' %}">Forgot Password?</a>
 							</div>
 						</form>
+						{% endif %}
 					</div>
+
 				</div>
 			</div>
 		</div>
 	</section>
 	<!--================End Login Box Area =================-->
+</body>
 {% endblock %}
+{% block scroll_js %}
+<script type="text/javascript">
+    $("html,body").scrollTop(400);
+</script>
+{% endblock scroll_js%}

@@ -15,25 +15,25 @@
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
 						<ul class="nav navbar-nav menu_nav ml-auto">
-							<li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
-							<li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
+							<li class="nav-item active"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
+							<li class="nav-item"><a class="nav-link" href="{% url 'product_list' %}">Shop Category</a></li>
 							{% if user.is_authenticated %}
 
 							<li class="nav-item submenu dropdown active">
 								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">{{user.username }}</a>
+								 aria-expanded="false">{{user.first_name }}</a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="{% url 'accounts:logoutapp' %}">Logout</a></li>
-									<li class="nav-item"><a class="nav-link" href="single-product.html">Reset Password</a></li>
+									<li class="nav-item"><a class="nav-link" href="{% url 'accounts:logout_app' %}">Logout</a></li>
+									<li class="nav-item"><a class="nav-link" href="{% url 'accounts:reset_password' %}">Reset Password</a></li>
 
 								</ul>
 							</li>
 							{% else %}
-							<li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-							<li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
+							<li class="nav-item"><a class="nav-link" href="{% url 'accounts:login_app' %}">Login</a></li>
+							<li class="nav-item"><a class="nav-link" href="{% url 'accounts:registration' %}">Register</a></li>
 							{% endif %}
 
-							<li class="nav-item"><a class="nav-link" href="contact.html">About Us</a></li>
+							<!-- <li class="nav-item"><a class="nav-link" href="contact.html">About Us</a></li> -->
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
 							<li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
