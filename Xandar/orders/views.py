@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, render_to_response
-from core.models import OrderedItems, DeliveryAddresses, Customer, Wishlist
+from core.models import OrderedItems, DeliveryAddresses, Customer, Wishlist, Cart, Items
 from django.views.generic import ListView
 
 # Create your views here.
@@ -11,8 +11,8 @@ def show_ordered_items(request):
     if request.method == 'POST':
         pass
     else:
-        #CHANGE
-        orders = Wishlist.objects.filter(customer=request.user)
+        current_cart = Cart.objects.get(user_id=request.user.id)
+        orders = Items.objects.filter(cart_id=current_cart)
         delivery_addresses = DeliveryAddresses.objects.filter(customer=request.user)
 
         context = {
@@ -42,7 +42,8 @@ def place_order(request):
     UserAddress.customer = request.user
     UserAddress.save()
     #UPDATE MAKE CART
-    orders = Wishlist.objects.filter(customer=request.user)
+    current_cart = Cart.objects.get(user_id=request.user.id)
+    orders = Items.objects.filter(cart_id=current_cart)
     context['orders']=orders
     return render(request, 'orders/order_confirmed.html', context)
 
