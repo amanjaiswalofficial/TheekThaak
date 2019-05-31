@@ -7,19 +7,28 @@ from django.views.generic import ListView
 
 
 def show_ordered_items(request):
+    context = {}
 
     if request.method == 'POST':
         pass
     else:
-        current_cart = Cart.objects.get(user_id=request.user.id)
-        orders = Items.objects.filter(cart_id=current_cart)
-        delivery_addresses = DeliveryAddresses.objects.filter(customer=request.user)
+        if request.user.is_authenticated:
+            try:
+                current_cart = Cart.objects.get(user_id=request.user.id)
+                orders = Items.objects.filter(cart_id=current_cart)
+                delivery_addresses = DeliveryAddresses.objects.filter(customer=request.user)
+                context = {
+                    'orders':orders,
+                    'addresses': delivery_addresses
+                }
+            except Cart.DoesNotExist:
+                context = {
+                    'orders': False
+                }
+            return render(request, 'orders/checkout.html', context)
+        else:
+            return redirect('accounts:login_app')
 
-        context = {
-            'orders':orders,
-            'addresses': delivery_addresses
-        }
-        return render(request, 'orders/checkout.html', context)
 
 
 def apply_coupon(request):
@@ -44,6 +53,7 @@ def place_order(request):
     #UPDATE MAKE CART
     current_cart = Cart.objects.get(user_id=request.user.id)
     orders = Items.objects.filter(cart_id=current_cart)
+    current_cart.delete()
     context['orders']=orders
     return render(request, 'orders/order_confirmed.html', context)
 

@@ -1,4 +1,3 @@
-
 # Create your models here.
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -9,7 +8,6 @@ from django.utils.translation import gettext_lazy as _
 
 
 def get_extra_field(table, extra_attributes):
-
     fields = table.objects.all().values_list('attribute', flat=True)
     extra_fields = [value for value in fields]
     extra_attributes.append(('Other', tuple([(i, i) for i in extra_fields])))
@@ -41,17 +39,40 @@ GENDER_CHOICES = (
 )
 
 CATEGORY_CHOICES = (
-    ('Electronics', 'Electronics'),
     ('Clothing', 'Clothing'),
-    ('Lifestyle', 'Lifestyle'),
+    ('Electronics', 'Electronics'),
+    ('Accessories', 'Accessories'),
 )
 
-
 SUB_CATEGORY_CHOICES = (
-    ('T-Shirts', 'T-Shirts'),
-    ('Glasses', 'Glasses'),
-    ('Shoes', 'Shoes'),
-    ('Phone','Phone')
+
+    # Electronics
+    ('Mobiles', 'Mobiles'),
+    ('Mobile_Accessories', 'Mobile Accessories'),
+    ('Laptops', 'Laptops'),
+    ('Desktop_PC', 'Desktop PC'),
+    ('Tablets', 'Tablets'),
+    ('Television', 'Television'),
+    ('Air_Conditioner', 'Air Conditioner'),
+    ('Refrigerator', 'Refrigerator'),
+    ('Washing_Machine', 'Washing Machine'),
+    ('Kitchen_Appliances', 'Kitchen Appliances'),
+
+    # Clothing
+    ('T_Shirt', 'T-Shirt'),
+    ('Jeans', 'Jeans'),
+    ('Inner_Wear', 'Inner Wear'),
+    ('Western_Wear', 'Western Wear'),
+    ('Ethnic_Wear', 'Ethnic Wear'),
+    ('Kurti', 'Kurti'),
+
+    # Accessories
+    ('Footwear', 'Footwear'),
+    ('Sunglasses', 'Sunglasses'),
+    ('Backpack', 'Backpack'),
+    ('Handbag', 'Handbag'),
+    ('Belt', 'Belt'),
+
 )
 
 
@@ -86,6 +107,7 @@ class Product(models.Model):
             self.slug = unique_slug_generator(self)
         super(Product, self).save(*args, **kwargs)
 
+
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, parent_link=True)
     image = models.FileField(upload_to='product_images/', default='product_images/default.jpg')
@@ -99,7 +121,8 @@ class ExtraAttribute(models.Model):
 
 class Attribute(models.Model):
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
-    attribute = models.CharField(max_length=50, choices=get_extra_field(ExtraAttribute, ATTRIBUTE_CHOICES), default='Default')
+    attribute = models.CharField(max_length=50, choices=get_extra_field(ExtraAttribute, ATTRIBUTE_CHOICES),
+                                 default='Default')
     value = models.CharField(max_length=50)
 
 
@@ -108,19 +131,20 @@ class Wishlist(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     product_image = models.ForeignKey(ProductImage, on_delete=models.CASCADE)
 
-
     def __str__(self):
         return self.product.name
 
     def get_absolute_url(self):
         return reverse('operations:wishlist')
 
-#-------------PREVIOUS WORK - WEEK ONE---------------#
+
+# -------------PREVIOUS WORK - WEEK ONE---------------#
 class OrderedItems(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
     product_image = models.ForeignKey(ProductImage, on_delete=models.CASCADE)
     order_date = models.DateTimeField(auto_now_add=True)
+
 
 class DeliveryAddresses(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
@@ -133,7 +157,6 @@ class DeliveryAddresses(models.Model):
 
 
 # Defining Validators
-
 
 
 def validate_quantity(value):
@@ -177,4 +200,26 @@ class Banner(models.Model):
 
     def __str__(self):
         return self.title
+
+class TopBanner(models.Model):
+    title = models.CharField(max_length=50, blank=True)
+    description = models.CharField(max_length=255)
+    category = models.CharField(choices=CATEGORY_CHOICES, max_length=20)
+    sub_category = models.CharField(choices=SUB_CATEGORY_CHOICES, max_length=20, blank=True)
+    gender = models.CharField(choices=GENDER_CHOICES, max_length=10, blank=True)
+    image = models.FileField(upload_to='banner_images/', blank=False)
+    is_active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title
+
+class Newsletter(models.Model):
+    email = models.EmailField(max_length=100)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.email
+
+
+
 

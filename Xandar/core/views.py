@@ -1,6 +1,10 @@
 from django.shortcuts import render
-from .models import Product, ProductImage, Banner
+from .models import Product, ProductImage, Banner, TopBanner, Newsletter
 from django.views.generic.list import ListView
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.core.mail import EmailMultiAlternatives
+from django.http import HttpResponse
 
 
 class Index(ListView):
@@ -13,6 +17,7 @@ class Index(ListView):
         # context['image']=[]
         context['banners'] = Banner.objects.filter(is_active=True)
         context['latest_products'] = Product.objects.order_by("-id")[:9]
+        context['top_banners'] = TopBanner.objects.filter(is_active=True)
 
         # Add in a QuerySet of all the books
         # for object in context['object_list']:
@@ -28,3 +33,21 @@ class Index(ListView):
 
         return context
 
+
+def news_letter(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        if not Newsletter.objects.filter(email=email).exists():
+            user = Newsletter.objects.create(email=email)
+
+            html_content = render_to_string('core/newsletter.html')
+
+            text_content = strip_tags(html_content)
+
+            msg = EmailMultiAlternatives('Subscription to Newsletter', text_content,
+                                         'contact.realestate.information@gmail.com', [email])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
+            return HttpResponse('Successfully Registered')
+        else:
+            return HttpResponse('Email Already Exists')

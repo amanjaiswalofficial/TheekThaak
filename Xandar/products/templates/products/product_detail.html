@@ -435,7 +435,6 @@ function add_function(object_id, button)
 				$( "#notify-user" ).html('<center><div class="alert alert-success" style="width:50%">'+response+'</div></center>');
 				$( "#notify-user" ).delay(3000).fadeOut('slow')
 				window.setTimeout(function(){location.reload()},3000)
-
 			},
 			error: function(error) {
 				console.log(document.getElementById('sst').value)

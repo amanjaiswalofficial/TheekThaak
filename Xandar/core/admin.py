@@ -45,5 +45,8 @@ class CustomerAdmin(UserAdmin):
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Banner)
+admin.site.register(TopBanner)
+admin.site.register(Newsletter)
+
 
 # admin.site.register(ExtraAttribute)

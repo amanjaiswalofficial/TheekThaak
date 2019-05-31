@@ -68,7 +68,7 @@ def delete_wishlist_items(request, pk):
     except Customer.DoesNotExist:
         return redirect('accounts:login_app')
 
-
+@login_required
 def show_orders(request):
     return render(request, 'operations/orders.html')
 
@@ -92,7 +92,7 @@ def get_client_ip(request):
 
 def add_to_cart(request, product_id, quantity=1):
     errors = ""
-    print('inside')
+
     try:
         product = Product.objects.get(id=product_id)
     except Product.DoesNotExist:
@@ -103,23 +103,22 @@ def add_to_cart(request, product_id, quantity=1):
     product_image = product.productimage_set.all()[0]
 
     if request.user.is_authenticated:
-
         try:
             cart = Cart.objects.get(user=request.user, is_ordered=False)
         except Cart.DoesNotExist:
             cart = Cart.objects.create(user=request.user)
-
         try:
             obj = Items.objects.get(cart=cart, product=product)
             if obj:
-                return "You are adding the item that already exist"
+                return HttpResponse("You are adding the item that already exist")
         except:
+            print('Exception')
             if quantity <= product.quantity :
                 if quantity <= 3:
                     Items.objects.create(cart=cart, product=product, product_img=product_image, quantity=quantity,
                                      unit_price=product.price)
                 else:
-                    return "This item cannot be added more than 3"
+                    return HttpResponse("This item cannot be added more than 3")
                 # return something
             else:
                 return 'This item is not available that much you want to avail Sorry !!!!'
@@ -149,10 +148,9 @@ def add_to_cart(request, product_id, quantity=1):
                 'product_img': {'image': {'url': product_image.image.url}}
             }
         else :
-            return "You are adding the item that already exist"
+            return HttpResponse("You are adding the item that already exist")
 
         if quantity <= product.quantity :
-
             if quantity <=3:
                 request.session[settings.CART_SESSION_ID][product_id]['quantity'] = quantity
                 request.session.modified = True
@@ -160,7 +158,8 @@ def add_to_cart(request, product_id, quantity=1):
                 return "This item cannot be added more than 3 in cart"
         else:
             return 'This item is not available that much you want to avail Sorry !!!!'
-    return 'Item added to Cart Successfully'
+    print('here')
+    return HttpResponse('Item added to Cart Successfully')
 
 
 def get_cart(request):
