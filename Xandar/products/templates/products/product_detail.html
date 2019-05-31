@@ -28,12 +28,14 @@
 				<div class="col-lg-6">
 					<div>
                         <div class="single-prd-item">
-                                <img class="img-fluid" src="{{images.0.image.url}}">
+                                        <img class="img-fluid" src="{{images.0.image.url}}">
+							<br><br>
                             <div class="row mb-5 thumbs">
+
                             {% for image in images %}
                                 <div class="col-md-2">
                                       <a href="{{ image.image.url }}" data-lightbox="home-images">
-                                        <img class="img-fluid" src="{{ image.image.url }}"  >
+                                        <img class="img-fluid"  src="{{ image.image.url }}">
                                       </a>
                                 </div>
                             {% endfor %}
@@ -442,7 +444,7 @@ function add_function(object_id, button)
 });
 }
 </script>
-
+<script src="{% static 'js/lightbox.min.js' %}"></script>
 {% endblock %}
 {% block scroll_js %}
 <script type="text/javascript">

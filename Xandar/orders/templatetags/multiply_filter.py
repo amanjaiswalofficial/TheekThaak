@@ -10,5 +10,7 @@ def multiply(qty, unit_price, *args, **kwargs):
 def total(items):
     sum = 0
     for item in items:
-        sum+=item.product.price
+        product_price = item.product.price * item.quantity
+        print(product_price)
+        sum+=product_price
     return sum

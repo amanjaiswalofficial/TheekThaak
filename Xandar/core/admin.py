@@ -1,5 +1,5 @@
 from django.contrib import admin
-#from core.models import Customer, Attribute, Product, ExtraAttribute, ProductImage
+#from core.models import Customer, Attribute, Product, ExtraAttribute, ProductImage, Banner
 from core.models import *
 from django.contrib.auth.admin import UserAdmin
 
@@ -31,6 +31,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ['gender', 'category', 'sub_category', 'name']
     list_display = ('name', 'category', 'sub_category', 'gender')
     list_filter = ('category','sub_category','gender')
+    exclude = ('slug',)
     inlines = [
         ProductImageInline, AttributeInline, ExtraAttributeInline
     ]
@@ -43,4 +44,6 @@ class CustomerAdmin(UserAdmin):
 
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Product, ProductAdmin)
+admin.site.register(Banner)
+
 # admin.site.register(ExtraAttribute)
