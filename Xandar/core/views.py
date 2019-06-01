@@ -10,7 +10,7 @@ from django.http import HttpResponse
 class Index(ListView):
     model = Product
     template_name = "core/index.html"
-    queryset = Product.objects.filter(is_featured=True).order_by('-id')[:8]
+    queryset = Product.objects.filter().order_by('-id')[:8]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

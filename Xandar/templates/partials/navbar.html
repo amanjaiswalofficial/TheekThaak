@@ -46,7 +46,7 @@ aria-expanded="false">{{user.first_name }}</a>
 <!-- <li class="nav-item"><a class="nav-link" href="contact.html">About Us</a></li> -->
 </ul>
 <ul class="nav navbar-nav navbar-right">
-<li class="nav-item"><a href="{% url 'operations:view_cart' %}" class="cart"><span class="ti-bag"></span></a></li>
+    <li class="nav-item"><a href="{% url 'operations:view_cart' %}" class="cart"><img src="{% static '/img/cart_main.jpg' %}" width="40px" height="40px" style="border-radius:50%;"><span ><sup id='cart_count' style="font-size:15px">{{request.session.cart_count}}</sup></span></a></li>
 <li class="nav-item">
 <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
 </li>
@@ -76,6 +76,5 @@ aria-expanded="false">{{user.first_name }}</a>
 </form>
 </div>
 </div>
-<div id="notify-user"></div>
 </header>
 <!-- End Header Area -->

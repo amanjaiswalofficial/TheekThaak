@@ -1,5 +1,5 @@
+
 from django.contrib import admin
-#from core.models import Customer, Attribute, Product, ExtraAttribute, ProductImage, Banner
 from core.models import *
 from django.contrib.auth.admin import UserAdmin
 
@@ -11,13 +11,10 @@ class ProductImageInline(admin.StackedInline):
          return self.initial_num
 
 
-class ExtraAttributeInline(admin.TabularInline):
-    model = ExtraAttribute
-    initial_num = 1
 
-    def get_extra(self, request, obj=None, **kwargs):
-        return self.initial_num
 
+class FeaturedProductsInline(admin.StackedInline):
+    model = FeaturedProducts
 
 class AttributeInline(admin.TabularInline):
     model = Attribute
@@ -26,14 +23,18 @@ class AttributeInline(admin.TabularInline):
     def get_extra(self, request, obj=None, **kwargs):
         return self.initial_num
 
+# class CategoriesInline(admin.StackedInline):
+#     model = ProductCategory
+
+
 class ProductAdmin(admin.ModelAdmin):
-    ordering = ('sub_category',)
-    search_fields = ['gender', 'category', 'sub_category', 'name']
-    list_display = ('name', 'category', 'sub_category', 'gender')
-    list_filter = ('category','sub_category','gender')
+    #ordering = ('sub_category',)
+    #search_fields = ['gender', 'category', 'sub_category', 'name']
+    #list_display = ('name', 'category', 'sub_category', 'gender')
+    #list_filter = ('category','sub_category','gender')
     exclude = ('slug',)
     inlines = [
-        ProductImageInline, AttributeInline, ExtraAttributeInline
+        ProductImageInline, AttributeInline, FeaturedProductsInline
     ]
 
 class CustomerAdmin(UserAdmin):
@@ -47,6 +48,6 @@ admin.site.register(Product, ProductAdmin)
 admin.site.register(Banner)
 admin.site.register(TopBanner)
 admin.site.register(Newsletter)
-
+admin.site.register(ProductCategory)
 
 # admin.site.register(ExtraAttribute)

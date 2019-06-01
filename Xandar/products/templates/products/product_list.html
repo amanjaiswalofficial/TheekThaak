@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
 
 
 
 <!-- Start Banner Area -->
+
 <section class="banner-area organic-breadcrumb">
         <div class="container">
             <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
@@ -131,7 +132,7 @@ with red<span>(19)</span></label></li>
 
 <div class="col-lg-4 col-md-6">
 <div class="single-product">
-<a href="{% url 'products:product_detail' product.id %}"">
+<a href="{% url 'products:product_detail' product.slug %}"">
 <img class="img-fluid" src="{{ product.image.url }}" alt="" style="width: 255px; height: 255px">
 </a>
 <div class="product-details">
@@ -152,7 +153,7 @@ with red<span>(19)</span></label></li>
 <p class="hover-text">Wishlist</p>
 </a>
 
-<a href="{% url 'products:product_detail' product.id %}" class="social-info">
+<a href="{% url 'products:product_detail' product.slug %}" class="social-info">
 <span class="lnr lnr-move"></span>
 <p class="hover-text">view more</p>
 </a>
@@ -180,6 +181,7 @@ with red<span>(19)</span></label></li>
 </div>
 <br>
 <br>
+    </div>
 <script>
 function add_function(object_id)
 {
@@ -191,9 +193,23 @@ data: {'quantity':1,
 'button':'wishlist'},
 type: 'GET',
 success: function(response) {
-location.reload()
-$( "#notify-user" ).html('<center><div class="alert alert-success" style="width:50%">'+response+'</div></center>');
-$( "#notify-user" ).delay(3000).fadeOut('slow')
+$('#total-screen').css('opacity',0.2)
+$('#response_message').text(response)
+if(response == 'Item Added To Wishlist Successfully')
+{
+    $('#response_image').attr('src',"{% static '/img/true.gif'%}")
+}
+else
+{
+    $('#response_image').attr('src',"{% static '/img/false.gif'%}")
+}
+
+$('#myModal').fadeIn('slow')
+$("#myModal").delay(1500).fadeOut('slow', function()
+{
+$('#total-screen').css('opacity',1)
+
+})
 },
 error: function(error) {
 console.log(error)
@@ -208,10 +224,24 @@ url: '/operations/cart/add/'+object_id+'/',
 data: {},
 type: 'GET',
 success: function(response) {
-console.log(response)
-$( "#notify-user" ).html('<center><div class="alert alert-success" style="width:50%">'+response+'</div></center>');
-$( "#notify-user" ).delay(3000).fadeOut('slow')
-location.reload()
+
+$('#total-screen').css('opacity',0.2)
+$('#response_message').text(response)
+if(response == 'Item Added To Cart Successfully')
+{
+    $('#response_image').attr('src',"{% static '/img/true.gif'%}")
+    $('#cart_count').text(parseInt($('#cart_count').text())+1)
+}
+else
+{
+    $('#response_image').attr('src',"{% static '/img/false.gif'%}")
+}
+
+$('#myModal').fadeIn('slow')
+$("#myModal").delay(1500).fadeOut('slow', function()
+{
+$('#total-screen').css('opacity',1)
+})
 },
 error: function(error) {
 console.log(error)

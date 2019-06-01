@@ -432,9 +432,28 @@ function add_function(object_id, button)
 					'button':button},
 			type: 'GET',
 			success: function(response) {
-				$( "#notify-user" ).html('<center><div class="alert alert-success" style="width:50%">'+response+'</div></center>');
-				$( "#notify-user" ).delay(3000).fadeOut('slow')
-				window.setTimeout(function(){location.reload()},3000)
+			$('#total-screen').css('opacity',0.2)
+$('#response_message').text(response)
+$('#cart_count').text('{{request.session.cart_count}}')
+if(response == 'Item Added To Wishlist Successfully')
+{
+    $('#response_image').attr('src',"{% static '/img/true.gif'%}")
+}
+else if(response == 'Item Added To Cart Successfully')
+{
+    $('#response_image').attr('src',"{% static '/img/true.gif'%}")
+    $('#cart_count').text(parseInt($('#cart_count').text())+1)
+}
+else
+{
+    $('#response_image').attr('src',"{% static '/img/false.gif'%}")
+}
+
+$('#myModal').fadeIn('slow')
+$("#myModal").delay(1500).fadeOut('slow', function()
+{
+$('#total-screen').css('opacity',1)
+})
 			},
 			error: function(error) {
 				console.log(document.getElementById('sst').value)

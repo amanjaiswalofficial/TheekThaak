@@ -150,7 +150,7 @@
 
 					<div class="col-lg-3 col-md-6">
 						<div class="single-product">
-						<a href="{% url 'products:product_detail' product.id %}">
+						<a href="{% url 'products:product_detail' product.slug %}">
 
 							<img class="img-fluid" src="{{ product.image.url }}" alt="" style="width: 255px; height: 255px">
 							</a>
@@ -163,7 +163,7 @@
 								<div class="prd-bottom">
 
 
-									<a href="{% url 'products:product_detail' product.id%}" class="social-info">
+									<a href="{% url 'products:product_detail' product.slug%}" class="social-info">
 										<span class="lnr lnr-move"></span>
 										<p class="hover-text">Know More</p>
 									</a>
@@ -220,9 +220,9 @@
 						{% for product in latest_products %}
 						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
 							<div class="single-related-product d-flex">
-								<a href="{% url 'products:product_detail' product.id %}"><img src="{{ product.image.url }}" alt="" height="100px" width="100px"></a>
+								<a href="{% url 'products:product_detail' product.slug %}"><img src="{{ product.image.url }}" alt="" height="100px" width="100px"></a>
 								<div class="desc">
-									<a href="{% url 'products:product_detail' product.id %}" class="title">{{ product.name }}</a>
+									<a href="{% url 'products:product_detail' product.slug %}" class="title">{{ product.name }}</a>
 									<div class="price">
 										<h6>₹{{ product.price }}</h6>
 									</div>

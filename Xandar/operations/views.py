@@ -8,7 +8,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, DeleteView
 
 from Xandar import settings
-from core.models import Product, ProductImage, Cart, Items
+from core.models import Product, ProductImage, Cart, CartItems
 from core.models import Customer, Wishlist
 # Create your views here.
 from operations.forms import UpdateCartForm
@@ -38,7 +38,7 @@ def add_wishlist_item(request, pk):
             image = ProductImage.objects.filter(product=product).first()
             Wishlist.objects.create(customer=request.user, product=product, product_image=image)
             print('been here')
-            return 'Item Added To Wishlist successfully'
+            return 'Item Added To Wishlist Successfully'
     else:
         return 'Login To Save This to your Wishlist'
 
@@ -159,7 +159,7 @@ def add_to_cart(request, product_id, quantity=1):
         else:
             return 'This item is not available that much you want to avail Sorry !!!!'
     print('here')
-    return HttpResponse('Item added to Cart Successfully')
+    return HttpResponse('Item Added To Cart Successfully')
 
 
 def get_cart(request):
